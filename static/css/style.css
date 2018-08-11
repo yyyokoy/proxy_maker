@@ -129,48 +129,17 @@ section h2 span {
   padding-bottom: 80px;
 }
 
-/* SEC02 Gallery
-------------------------------------------------------------*/
-
-#sec02 {
-  padding: 0 !important;
-}
-
-#sec02 header {
-  display: none;
-}
-
-#gallery {
-  overflow: hidden;
-}
-
-#gallery li {
-  float: left;
-  width: calc(100%/3);
-  line-height: 0;
-}
-
-#gallery li.full {
-  width: 100%;
-}
-
-#gallery img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* SEC03 BRAND
+/* SEC02 BRAND
 ------------------------------------------------------------*/
 
 .col4 .img {
   margin: 0 auto;
 }
 
-/* SEC04 PROJECT
+/* SEC03 PROJECT
 ------------------------------------------------------------*/
 
-#sec04 {
+#sec03 {
   padding-bottom: 0 !important;
 }
 
@@ -187,36 +156,6 @@ section h2 span {
 
 .article p {
   margin-bottom: 20px;
-}
-
-/* SEC05 COMPANY
-------------------------------------------------------------*/
-
-#sec05 p {
-  margin-bottom: 5px;
-}
-
-.col2 li {
-  display: inline-block;
-  width: 100%;
-  margin: 20px 0;
-}
-
-#map {
-  position: relative;
-  padding-bottom: 75%;
-  height: 0;
-  overflow: hidden;
-  z-index: 0;
-}
-
-#map iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  border: 0;
 }
 
 /* RESPONSIVE 設定
