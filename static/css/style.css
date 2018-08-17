@@ -385,3 +385,42 @@ section h2 span {
     margin: 55px auto;
   }
 }
+
+@charset "UTF-8";
+
+#camera {
+	width: 400px;
+	height: 300px;
+}
+
+#img {
+	width: 400px;
+	height: 300px;
+}
+
+.people_photo {
+    background-color: #ffffff;
+}
+
+.thumbnail {
+    height: 400px;
+    background-color: #52d3ff;
+    display: block;
+}
+
+.people_photo label {
+    display: inline-block;
+    position: relative;
+}
+.location_radio {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.location_radio + img {
+    border: 1px solid rgba( 0, 0, 0, 0 );
+}
+.location_radio:checked + img {
+    border: 1px solid red;
+}
