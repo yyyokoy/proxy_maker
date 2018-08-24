@@ -6,8 +6,6 @@ from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView
 
-from icrawler.builtin import GoogleImageCrawler
-
 import glob
 import sys
 import base64
@@ -15,35 +13,47 @@ import json
 import os
 import subprocess
 import shutil
-import urllib.parse
+from urllib import request as req
+from urllib import error
+from urllib import parse
+import bs4
 
 def card_choice(request):
 
-    def crawler(store_dir, keyword):
-        try:
-            files = os.listdir(store_dir)
-            for file in files:
-                try:
-                    os.remove(store_dir + '/' + file)
-                except OSError:
-                    pass
-        except OSError:
-            pass
+    def clrawler(card):
 
-        crawler = GoogleImageCrawler(storage={"root_dir": store_dir})
-        crawler.crawl(keyword=keyword, max_num=10, overwrite=True)
+        keyword ='遊戯王' + str(card)
+
+        urlKeyword = parse.quote(keyword)
+        url = 'https://www.google.com/search?hl=jp&q=' + urlKeyword + '&btnG=Google+Search&tbs=0&safe=off&tbm=isch'
+
+        headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",}
+        request = req.Request(url=url, headers=headers)
+        page = req.urlopen(request)
+
+        html = page.read().decode('utf-8')
+        html = bs4.BeautifulSoup(html, "html.parser")
+        elems = html.select('.rg_meta.notranslate')
+        imageURLs = []
+        counter = 0
+        for ele in elems:
+            ele = ele.contents[0].replace('"','').split(',')
+            eledict = dict()
+            for e in ele:
+                num = e.find(':')
+                eledict[e[0:num]] = e[num+1:]
+            imageURL = eledict['ou']
+            imageURLs.append(imageURL)
+
+        return imageURLs[0:11]
 
     if request.method == 'GET':
         card = ""
-        files = []
         message = ''
-        files_count = len(files)
 
         context = {
-            'card_url': urllib.parse.quote(card),
-            'files': files,
+            'card_url': parse.quote(card),
             'message': message,
-            'files_count': files_count,
         }
 
         return render(request, 'card_manager/card.html', context)
@@ -51,21 +61,16 @@ def card_choice(request):
     elif request.method == 'POST':
         card = request.POST.get('card', None)
         keyword = '遊戯王 ' + card
-        store_dir = 'media/card/' + card
         # 指定した画像人物のクローリング
-        crawler(store_dir, keyword)
+        card_url_list = clrawler(card)
         # 画像のリストを取得
-        files = os.listdir(store_dir)
-        files_count = len(files)
         # 人物を選択するメッセージを表示
         message = card + 'っぽい画像を選んでください'
 
         context = {
-            'card_url': urllib.parse.quote(card),
             'card': card,
-            'files': files,
             'message': message,
-            'files_count': files_count,
+            'card_url_list': card_url_list,
         }
 
 

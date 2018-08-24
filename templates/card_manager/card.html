@@ -12,12 +12,9 @@
 </style>
 
 <h2>カード選択</h2>
-<p>
-  your ID is {{ user.id }}
-</p>
 
 <div style="color:red">
-  <p>※ デザインは後回し。メモリで処理してファイルIOの遅延をなくす</p>
+
 </div>
 <form action="" method="post">
   {% csrf_token %}
@@ -38,10 +35,10 @@
 <div id="freewall" class="free-wall"></div>
 
 <span class="people_photo">
-  {% for file in files %}
+  {% for card_url in card_url_list %}
   <label>
-    <input class="location_radio" type="checkbox" name="img" value="{{ file }}">
-    <img class="thumbnail" src="/media/card/{{ card_url }}/{{ file }}" />
+    <input class="location_radio" type="checkbox" name="img" value="{{ card_url }}">
+    <img class="thumbnail" src="{{ card_url }}" />
   </label>
   {% endfor %}
 </span>
