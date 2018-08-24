@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{% endblock %}
+
+{% block bodyclass %}login{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="#">PROXY_MAKER PoC</a></h1>
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        {% if form.errors  %}
+        <p class="errornote">Your usernamne and password didn't match. Please try again.</p>
+        {% endif %}
+      <form action="" method="post" id="login-form" role="form">
+        {% csrf_token %}
+        <div class="form-row">
+          <label class="required" for="id_username">ユーザー名:</label><input id="id_username" name="username" type="text" value="" maxlength="256" placeholder="Username" autofocus required/>
+        </div>
+        <div class="form-row">
+          <label class="required" for="id_password">パスワード:</label><input id="id_password" name="password" type="password" value="" maxlength="256" placeholder="Pasword" required/>
+        </div>
+        <div class="submit-row">
+          <label>&nbsp;</label><input type="submit" value="ログイン" />
+        </div>
+      </form>
+    </div>
+  <div class="" style="text-align: right;">
+    <span><a href="{% url 'accounts:user_create' %}">create a new account</a></span>
+    <br>
+    <span><a href="{% url 'main:index' %}">HOME</a></span>
+  </div>
+
+{% endblock %}

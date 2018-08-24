@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{% endblock %}
+
+{% block branding %}
+PROXY_MAKER PoC
+{% endblock %}
+
+{% block content %}
+<form action="" method="POST">
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {% csrf_token %}
+    <div class="submit-row">
+      <label>&nbsp;</label><input type="submit" value="送信" />
+    </div>
+</form>
+{% endblock %}

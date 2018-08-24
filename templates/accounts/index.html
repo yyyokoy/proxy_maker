@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block extrastyle %}
+{% endblock %}
+
+{% block branding %}
+Mr. Loto PoC
+{% endblock %}
+
+{% block content %}
+<h2>登録・ログイン</h2>
+<p>本来はトップページのヘッダにリンクがあるようなイメージ</p>
+<p>
+<li><a href="{% url 'accounts:user_create' %}">ユーザ登録</a> user_create/</li>
+<li><a href="{% url 'accounts:login' %}">ユーザログイン</a> login/</li>
+</p>
+
+{% endblock %}

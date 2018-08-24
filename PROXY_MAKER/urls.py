@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', include('main.urls'), name = 'main'),
     path('card/', include('card_manager.urls'), name = 'card_manager'),
+    path('accounts/', include('accounts.urls'), name = 'accounts'),
 ]
 
 if settings.DEBUG:

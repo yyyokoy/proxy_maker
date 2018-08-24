@@ -23,6 +23,11 @@
 					<div class="panel">
 						<ul>
 							<li><a href="{% url 'card_manager:card_choice' %}">PROXY MAKER</a></li>
+							{% if user.is_authenticated %}
+							<li><a href="{% url 'accounts:logout' %}">LOGOUT</a></li>
+							{% else %}
+							<li><a href="{% url 'accounts:login' %}">LOGIN/SIGNIN</a></li>
+							{% endif %}
 							<li><a href="#sec01">ABOUT</a></li>
 							<li><a href="#sec02">SAMPLE DECKS</a></li>
 							<li><a href="#sec03">HOW TO USE</a></li>
@@ -40,6 +45,15 @@
 
 		<div id="content">
 			<h1><span>PROXY_MAKER</span></h1>
+			{% if user.is_authenticated %}
+			<p>ユーザID: {{ user.id }}</p>
+			<p>ユーザ名: {{ user }}</p>
+			{% endif %}
+			<div class="">
+				<p>
+					<li><a href="{% url 'accounts:index' %}"> [アカウント管理] 登録・ログイン機能</a> /accounts/</li>
+				</p>
+			</div>
 			<!-- <p id="mainImg"><img src={% static "images/mainImg.jpg" %} width="800" height="168" alt=""></p> -->
 			<!-- MESSAGE -->
 			<section id="sec01">
