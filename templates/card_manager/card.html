@@ -7,7 +7,7 @@ PROXY MAKER PoC
 {% load static %} {% block content %} {% csrf_token %}
 <link rel="stylesheet" media="all" href={% static "css/style.css" %}>
 
-<h2>カード選択</h2>
+<h2>カード登録</h2>
 
 {% if user.is_authenticated %}
 <p>ユーザID: {{ user.id }}</p>
@@ -33,16 +33,17 @@ PROXY MAKER PoC
   <p>{{ message }}</p>
 </div>
 
-<span class="people_photo">
+<form class="" action="{% url 'card_manager:card_register' %}" method="post">
+  {% csrf_token %}
+<button class="btn btn-primary btn-lg">カードプールへ追加</button><br>
+<span class="card_image">
   {% for card_url in card_url_list %}
   <label>
-    <input class="location_radio" type="checkbox" name="img" value="{{ card_url }}">
+    <input class="location_radio" type="radio" name="selected_card" value="{{ card_url }}">
     <img class="thumbnail" src="{{ card_url }}" />
   </label>
   {% endfor %}
 </span>
-
-<a href="{% url 'card_manager:proxy' %}">プロキシ作成</a>
-
+</form>
 
 {% endblock %}

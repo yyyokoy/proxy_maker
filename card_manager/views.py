@@ -73,6 +73,21 @@ def card_choice(request):
 
         return render(request, 'card_manager/card.html', context)
 
+def card_register(request):
+
+    card = Card()
+
+    if request.method == 'POST':
+        selected_card = request.POST.get('selected_card', None)
+        owner = request.user
+        card.owner = owner
+        card.url = selected_card
+        card.save()
+        print(owner)
+        print(selected_card)
+
+        return redirect('card_manager:card_choice')
+
 def card_pool(request):
     user = request.user
     cards = Card.objects.filter(owner=user).order_by('id')

@@ -5,6 +5,7 @@ app_name = 'card_manager'
 
 urlpatterns = [
     path('', views.card_choice, name='card_choice'),
+    path('card_register/', views.card_register, name='card_register'),
     path('pool/', views.card_pool, name='card_pool'),
     path('proxy/', views.ProxyView.as_view(), name='proxy'),
 ]

@@ -408,7 +408,7 @@ section h2 span {
     display: block;
 }
 
-.people_photo label {
+.card_image label {
     display: inline-block;
     position: relative;
 }
