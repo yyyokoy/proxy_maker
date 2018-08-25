@@ -1,12 +1,14 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 
+from datetime import datetime
+from django.utils import timezone
+
+from django.core.validators import MinLengthValidator, MaxLengthValidator, URLValidator
 
 class Card(models.Model):
-    """カード"""
-
-    name = models.CharField('カード名', max_length=200)
-    image = models.CharField('画像', max_length=200)
-
-    def __str__(self):
-        return self.name
+    # pk <-- auto
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    url = models.URLField(validators=[URLValidator])
+    created_at = models.DateTimeField(default=timezone.now)

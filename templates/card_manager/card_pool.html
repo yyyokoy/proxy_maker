@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block branding %}
+PROXY MAKER PoC
+{% endblock %}
+
+{% load static %} {% block content %}
+
+<h2>カードプール</h2>
+{% if user.is_authenticated %}
+<p>ユーザID: {{ user.id }}</p>
+<p>ユーザ名: {{ user }}</p>
+{% endif %}
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">サムネ</th>
+      <th scope="col">デッキへ追加</th>
+      <th scope="col">アクション</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for card in cards %}
+    <tr>
+      <th scope="row"><img src="{{ card.url }}" width="150" alt=""/></th>
+      <td>
+        <a href="" class="btn btn-outline-primary btn-sm">1枚</a>
+        <a href="" class="btn btn-outline-danger btn-sm">2枚</a>
+        <a href="" class="btn btn-outline-danger btn-sm">3枚</a>
+      </td>
+      <td>
+        <a href="" class="btn btn-outline-primary btn-sm">修正</a>
+        <a href="" class="btn btn-outline-danger btn-sm">削除</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

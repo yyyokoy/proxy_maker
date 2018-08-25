@@ -20,7 +20,7 @@ import bs4
 
 def card_choice(request):
 
-    def clrawler(card):
+    def crawler(card):
 
         keyword ='遊戯王' + str(card)
 
@@ -45,7 +45,7 @@ def card_choice(request):
             imageURL = eledict['ou']
             imageURLs.append(imageURL)
 
-        return imageURLs[0:11]
+        return imageURLs[0:10]
 
     if request.method == 'GET':
         card = ""
@@ -61,10 +61,7 @@ def card_choice(request):
     elif request.method == 'POST':
         card = request.POST.get('card', None)
         keyword = '遊戯王 ' + card
-        # 指定した画像人物のクローリング
-        card_url_list = clrawler(card)
-        # 画像のリストを取得
-        # 人物を選択するメッセージを表示
+        card_url_list = crawler(card)
         message = card + 'っぽい画像を選んでください'
 
         context = {
@@ -75,6 +72,14 @@ def card_choice(request):
 
 
         return render(request, 'card_manager/card.html', context)
+
+def card_pool(request):
+    user = request.user
+    cards = Card.objects.filter(owner=user).order_by('id')
+    context = {
+        'cards': cards,
+    }
+    return render(request, 'card_manager/card_pool.html', context)
 
 class ProxyView(TemplateView):
     template_name = "card_manager/proxy.html"
