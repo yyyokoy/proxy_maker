@@ -10,5 +10,3 @@ urlpatterns = [
     path('card/', include('card_manager.urls'), name = 'card_manager'),
     path('accounts/', include('accounts.urls'), name = 'accounts'),
 ]
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
