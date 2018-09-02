@@ -16,19 +16,15 @@ PROXY MAKER PoC
   <thead>
     <tr>
       <th scope="col">サムネ</th>
-      <th scope="col">デッキへ追加</th>
+      <th scope="col">名前</th>
       <th scope="col">アクション</th>
     </tr>
     </thead>
     <tbody>
     {% for card in cards %}
     <tr>
-      <th scope="row"><img src="{{ card.url }}" width="150" alt=""/></th>
-      <td>
-        <a href="" class="btn btn-outline-primary btn-sm">1枚</a>
-        <a href="" class="btn btn-outline-danger btn-sm">2枚</a>
-        <a href="" class="btn btn-outline-danger btn-sm">3枚</a>
-      </td>
+      <th scope="row"><img src="{{ card.card_source }}" width="150" alt=""/></th>
+      <td>{{ card.name }}</td>
       <td>
         <a href="" class="btn btn-outline-primary btn-sm">修正</a>
         <a href="" class="btn btn-outline-danger btn-sm">削除</a>

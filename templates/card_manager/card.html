@@ -16,6 +16,7 @@ PROXY MAKER PoC
 
 <p>
   <li><a href="{% url 'card_manager:card_pool' %}"> [カード管理] カードプール</a> /card/pool/</li>
+  <li><a href="{% url 'card_manager:deck_list' %}"> [カード管理] デッキ一覧</a> /card/decks/</li>
 </p>
 
 <form action="" method="post">
@@ -39,7 +40,7 @@ PROXY MAKER PoC
 <span class="card_image">
   {% for card_url in card_url_list %}
   <label>
-    <input class="location_radio" type="radio" name="selected_card" value="{{ card_url }}">
+    <input class="location_radio" type="radio" name="selected_card" value="{{ card_url }},{{ card }}">
     <img class="thumbnail" src="{{ card_url }}" />
   </label>
   {% endfor %}

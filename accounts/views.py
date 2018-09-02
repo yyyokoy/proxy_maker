@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
+from django.contrib.auth import login
 
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
@@ -32,11 +33,10 @@ class UserCreate(CreateView):
     def form_valid(self, form):
         """正しければ登録"""
         try:
-            # 問題なければ登録する
-            # TODO: 登録後の自動ログイン
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            login(self.request, user)
 
             return redirect('main:index')
 

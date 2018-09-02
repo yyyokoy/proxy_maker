@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from card_manager.models import Card
+from card_manager.models import Card, Deck
 
 from django.http import HttpResponse
 from django.template import loader
@@ -81,20 +81,32 @@ def card_register(request):
         selected_card = request.POST.get('selected_card', None)
         owner = request.user
         card.owner = owner
-        card.url = selected_card
+        card.card_source = selected_card.split(',')[0]
+        card.name = selected_card.split(',')[1]
         card.save()
         print(owner)
-        print(selected_card)
+        print(selected_card.split(',')[1])
 
-        return redirect('card_manager:card_choice')
+    return redirect('card_manager:card_choice')
 
 def card_pool(request):
     user = request.user
     cards = Card.objects.filter(owner=user).order_by('id')
+    # decks = Deck.objects.filter(owner=user).order_by('id')
     context = {
         'cards': cards,
+        # 'decks': decks,
     }
     return render(request, 'card_manager/card_pool.html', context)
 
 class ProxyView(TemplateView):
     template_name = "card_manager/proxy.html"
+
+def deck_list(request):
+    """デッキの一覧"""
+    user = request.user
+    decks = Deck.objects.filter(owner=user).order_by('id')
+    context = {
+        'decks': decks,
+    }
+    return render(request, 'card_manager/deck_list.html', context)
