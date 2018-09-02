@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from card_manager.models import Card, Deck, UserDecks
@@ -18,6 +19,8 @@ from urllib import error
 from urllib import parse
 import bs4
 
+
+@login_required
 def card_choice(request):
 
     def crawler(card):
@@ -73,6 +76,7 @@ def card_choice(request):
 
         return render(request, 'card_manager/card.html', context)
 
+@login_required
 def card_register(request):
 
     card = Card()
@@ -89,6 +93,7 @@ def card_register(request):
 
     return redirect('card_manager:card_choice')
 
+@login_required
 def card_pool(request):
     user = request.user
     cards = Card.objects.filter(owner=user).order_by('id')
@@ -102,6 +107,7 @@ def card_pool(request):
 class ProxyView(TemplateView):
     template_name = "card_manager/proxy.html"
 
+@login_required
 def deck_list(request):
     """デッキの一覧"""
     user = request.user
