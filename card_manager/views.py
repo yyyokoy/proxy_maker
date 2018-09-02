@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from card_manager.models import Card, Deck
+from card_manager.models import Card, Deck, UserDecks
 
 from django.http import HttpResponse
 from django.template import loader
@@ -105,7 +105,7 @@ class ProxyView(TemplateView):
 def deck_list(request):
     """デッキの一覧"""
     user = request.user
-    decks = Deck.objects.filter(owner=user).order_by('id')
+    decks = UserDecks.objects.filter(owner=user).order_by('id')
     context = {
         'decks': decks,
     }
