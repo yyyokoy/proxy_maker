@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from card_manager.models import Card, Deck, UserDecks
 
@@ -106,6 +106,13 @@ def card_pool(request):
 
 class ProxyView(TemplateView):
     template_name = "card_manager/proxy.html"
+
+def card_del(request, card_id):
+    """書籍の削除"""
+#     return HttpResponse('書籍の削除')
+    card = get_object_or_404(Card, pk=card_id)
+    card.delete()
+    return redirect('card_manager:card_pool')
 
 @login_required
 def deck_list(request):
