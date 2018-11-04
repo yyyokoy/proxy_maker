@@ -11,7 +11,7 @@ class UserDecks(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     card_source = models.URLField(validators=[URLValidator])
-    name = models.CharField('デッキ名', max_length=255, default='some deck')
+    name = models.CharField('デッキ名', max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

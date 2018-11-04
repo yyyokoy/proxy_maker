@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block branding %}
+PROXY MAKER PoC
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<form action="{% url 'card_manager:deck_add' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit" class="btn btn-primary">送信</button>
+</form>
+{% endblock content %}

@@ -2,10 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from card_manager.models import Card, Deck, UserDecks
+from django.contrib.auth.models import User
 
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView
+from card_manager.forms import UserDecksForm
 
 import glob
 import sys
@@ -28,7 +30,7 @@ def card_choice(request):
         keyword ='遊戯王' + str(card)
 
         urlKeyword = parse.quote(keyword)
-        url = 'https://www.google.com/search?hl=jp&q=' + urlKeyword + '&btnG=Google+Search&tbs=0&safe=off&tbm=isch'
+        url = 'https://www.google.com/search?hl=jp&q={}&btnG=Google+Search&tbs=0&safe=off&tbm=isch'.format(urlKeyword)
 
         headers = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",}
         request = req.Request(url=url, headers=headers)
@@ -63,7 +65,7 @@ def card_choice(request):
 
     elif request.method == 'POST':
         card = request.POST.get('card', None)
-        keyword = '遊戯王 ' + card
+        keyword = '遊戯王 {}'.format(card)
         card_url_list = crawler(card)
         message = card + 'っぽい画像を選んでください'
 
@@ -108,7 +110,7 @@ class ProxyView(TemplateView):
     template_name = "card_manager/proxy.html"
 
 def card_del(request, card_id):
-    """書籍の削除"""
+    """カードの削除"""
 #     return HttpResponse('書籍の削除')
     card = get_object_or_404(Card, pk=card_id)
     card.delete()
@@ -123,3 +125,26 @@ def deck_list(request):
         'decks': decks,
     }
     return render(request, 'card_manager/deck_list.html', context)
+
+def deck_edit(request, deck_id=None):
+    # TODO: リファクタリング
+    """デッキの編集"""
+    user_id = request.user.id
+    owner = User.objects.get(id=user_id)
+
+    if deck_id:   # book_id が指定されている (修正時)
+        deck = get_object_or_404(UserDecks, pk=deck_id)
+    else:         # book_id が指定されていない (追加時)
+        deck = UserDecks()
+
+    if request.method == 'POST':
+        form = UserDecksForm(request.POST, instance=deck)  # POST された request データからフォームを作成
+        if form.is_valid():    # フォームのバリデーション
+            deck = form.save(commit=False)
+            deck.owner = owner
+            deck.save()
+            return redirect('card_manager:deck_list')
+    else:    # GET の時
+        form = UserDecksForm(instance=deck)  # book インスタンスからフォームを作成
+
+    return render(request, 'card_manager/deck_edit.html', dict(form=form, deck_id=deck_id))
